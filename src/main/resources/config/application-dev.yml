@@ -67,7 +67,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: com.local.naruto.knowledge.mybatis.entity
+  type-aliases-package: com.local.naruto.knowledge.entity
   configuration:
     jdbc-type-for-null: 'null'
 
