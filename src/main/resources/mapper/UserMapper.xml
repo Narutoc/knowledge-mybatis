@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.local.naruto.knowledge.mybatis.mapper.user.UserMapper">
+
+    <resultMap id="UserInfoMap" type="com.local.naruto.knowledge.mybatis.entity.UserModel">
+        <result column="userId" property="userId"/>
+        <result column="userName" property="userName"/>
+        <result column="passWord" property="password"/>
+        <result column="realName" property="realName"/>
+        <result column="status" property="status"/>
+        <result column="createdUser" property="createdUser"/>
+        <result column="createdDate" property="createdDate"/>
+        <result column="lastModifiedUser" property="lastModifiedUser"/>
+        <result column="lastModifiedDate" property="lastModifiedDate"/>
+    </resultMap>
+
+    <sql id="UserInfo">
+        userid `userId`,
+        username `userName`,
+        password `password`,
+        realname `realName`,
+        status `status`,
+        createduser `createdUser`,
+        createddate `createdDate`,
+        lastmodifieduser `lastModifiedUser`,
+        lastmodifieddate `lastModifiedDate`
+    </sql>
+
+    <!--查询所有用户信息-->
+    <select id="getAllUser" resultMap="UserInfoMap">
+        SELECT
+        <include refid="UserInfo"/>
+        FROM tbl_user_info ORDER BY lastmodifieddate DESC
+    </select>
+
+    <!--根据id查询用户信息-->
+    <select id="getUserById" resultMap="UserInfoMap">
+        SELECT
+        <include refid="UserInfo"/>
+        FROM tbl_user_info WHERE userid = #{userId}
+    </select>
+
+    <!--批量插入用户信息-->
+    <insert id="batchAddUser" parameterType="java.util.List">
+        INSERT INTO tbl_user_info
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.userId},
+            #{item.userName},
+            #{item.password},
+            #{item.realName},
+            #{item.status},
+            #{item.createdUser},
+            #{item.createdDate},
+            #{item.lastModifiedUser},
+            #{item.lastModifiedDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--批量更新用户信息-->
+    <update id="batchUpdateUser" parameterType="java.util.List">
+        <foreach collection="list" index="index" item="item" separator=";">
+            UPDATE tbl_user_info
+            <set>
+                <if test="item.password != null and item.password != ''">
+                    password = #{item.password},
+                </if>
+                <if test="item.realName != null and item.realName != ''">
+                    realname = #{item.realName},
+                </if>
+                <if test="item.lastModifiedUser != null and item.lastModifiedUser != ''">
+                    lastmodifieduser = #{item.lastModifiedUser},
+                </if>
+                <if test="item.lastModifiedDate != null and item.lastModifiedDate != ''">
+                    lastmodifieddate = #{item.lastModifiedDate}
+                </if>
+            </set>
+            WHERE userid = #{item.userId}
+        </foreach>
+    </update>
+
+    <!--多条件查询-->
+    <select id="conditionalQuery" parameterType="java.util.Map" resultMap="UserInfoMap">
+        SELECT
+        <include refid="UserInfo"/>
+        FROM tbl_user_info
+        WHERE 1 = 1
+        <if test="userName != null and userName != ''">
+            AND LOWER(username) LIKE CONCAT ('%',#{userName},'%')
+        </if>
+        <if test="realName != null and realName != ''">
+            AND LOWER(realname) LIKE CONCAT ('%',#{realName},'%')
+        </if>
+        ORDER BY lastmodifieddate DESC
+        LIMIT #{index}, #{size}
+    </select>
+
+    <!--多条件查询数量-->
+    <select id="conditionalQueryCount" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*) FROM tbl_user_info
+        WHERE 1 = 1
+        <if test="userName != null and userName != ''">
+            AND LOWER(username) LIKE CONCAT ('%',#{userName},'%')
+        </if>
+        <if test="realName != null and realName != ''">
+            AND LOWER(realname) LIKE CONCAT ('%',#{realName},'%')
+        </if>
+    </select>
+
+    <!--根据id批量删除用户信息-->
+    <delete id="batchDeleteUser" parameterType="java.util.List">
+        DELETE FROM tbl_user_info WHERE userid IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.local.naruto.knowledge.mapper.content.ContentMapper">
+    <!--批量插入内容信息-->
+    <insert id="batchInsertContent" parameterType="java.util.List">
+        INSERT INTO tbl_content_info
+        VALUES
+        <foreach collection="contentList" index="index" item="content" separator=",">
+            (
+            #{content.contentId},
+            #{content.objectId},
+            #{content.lang},
+            #{content.content1},
+            #{content.content2},
+            #{content.content3},
+            #{content.content4},
+            #{content.status},
+            #{content.createdUser},
+            #{content.createdDate},
+            #{content.lastModifiedUser},
+            #{content.lastModifiedDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--批量更新内容信息-->
+    <update id="batchUpdateContent" parameterType="java.util.List">
+        <foreach collection="contentList" index="index" item="content" separator=";">
+            UPDATE tbl_content_info
+            <set>
+                lang = #{content.lang},
+                content1= #{content.content1},
+                content2= #{content.content2},
+                content3= #{content.content3},
+                content4= #{content.content4},
+                status = #{content.status},
+                lastmodifieduser = #{content.lastModifiedUser},
+                lastmodifieddate = #{content.lastModifiedDate}
+            </set>
+            WHERE contentid = #{content.contentId}
+        </foreach>
+    </update>
+
+    <!--根据objectId删除关联的信息-->
+    <delete id="deleteByObjectId" parameterType="string">
+        DELETE FROM tbl_content_info WHERE objectid = #{objectId}
+    </delete>
+</mapper>

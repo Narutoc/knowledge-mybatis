@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.local.naruto.knowledge.mybatis.mapper.menu.MenuMapper">
+    <resultMap id="MenuInfoMap" type="com.local.naruto.knowledge.mybatis.entity.MenuModel">
+        <result column="menuId" property="menuId"/>
+        <result column="parentId" property="parentId"/>
+        <result column="sortNum" property="sortNum"/>
+        <result column="status" property="status"/>
+        <result column="createdUser" property="createdUser"/>
+        <result column="createdDate" property="createdDate"/>
+        <result column="lastModifiedUser" property="lastModifiedUser"/>
+        <result column="lastModifiedDate" property="lastModifiedDate"/>
+        <collection property="child" column="{parentId = menuId}"
+          javaType="java.util.ArrayList"
+          ofType="com.local.naruto.knowledge.mybatis.entity.MenuModel"
+          select="getChildMenu"/>
+        <collection property="menuLanguageList" column="{menuId = menuId}"
+          javaType="java.util.ArrayList"
+          ofType="com.local.naruto.knowledge.mybatis.entity.ContentModel"
+          select="getMenuContent"/>
+    </resultMap>
+
+    <resultMap id="ContentInfoMap" type="com.local.naruto.knowledge.mybatis.entity.ContentModel">
+        <result column="contentId" property="contentId"/>
+        <result column="objectId" property="objectId"/>
+        <result column="lang" property="lang"/>
+        <result column="content1" property="content1"/>
+        <result column="content2" property="content2"/>
+        <result column="content3" property="content3"/>
+        <result column="content4" property="content4"/>
+        <result column="status" property="status"/>
+        <result column="createdUser" property="createdUser"/>
+        <result column="createdDate" property="createdDate"/>
+        <result column="lastModifiedUser" property="lastModifiedUser"/>
+        <result column="lastModifiedDate" property="lastModifiedDate"/>
+    </resultMap>
+
+    <sql id="menuInfoList">
+        menuid `menuId`,
+        parentid `parentId`,
+        sortnum `sortNum`,
+        status `status`,
+        createduser `createdUser`,
+        createddate `createdDate`,
+        lastmodifieduser `lastModifiedUser`,
+        lastmodifieddate `lastModifiedDate`
+    </sql>
+
+    <sql id="contentInfoList">
+        contentid `contentId`,
+        objectid `objectId`,
+        lang `lang`,
+        content1 `content1`,
+        content2 `content2`,
+        content3 `content3`,
+        content4 `content4`,
+        status `status`,
+        createduser `createdUser`,
+        createddate `createdDate`,
+        lastmodifieduser `lastModifiedUser`,
+        lastmodifieddate `lastModifiedDate`
+    </sql>
+
+    <!--新增菜单信息-->
+    <insert id="addMenuInfo" parameterType="com.local.naruto.knowledge.mybatis.entity.MenuModel">
+        INSERT INTO tbl_menu_info
+        (
+            menuid,parentid,status,sortnum,createduser,createddate,lastmodifieduser,lastmodifieddate
+        )
+        VALUES
+        (
+            #{menuId},#{parentId}, #{status},#{sortNum},#{createdUser},#{createdDate},
+            #{lastModifiedUser},#{lastModifiedDate}
+        )
+    </insert>
+
+    <!--批量新增-->
+    <insert id="batchInsertMenu" parameterType="java.util.List">
+        INSERT INTO tbl_menu_info
+        (
+            menuid,parentid,status,sortnum,createduser,createddate,lastmodifieduser,lastmodifieddate
+        )
+        VALUES
+        <foreach collection="list" index="index" item="menu" separator=",">
+            (
+                #{menu.menuId},
+                #{menu.parentId},
+                #{menu.status},
+                #{menu.sortNum},
+                #{menu.createdUser},
+                #{menu.createdDate},
+                #{menu.lastModifiedUser},
+                #{menu.lastModifiedDate}
+            )
+        </foreach>
+    </insert>
+
+    <!--根据id查询菜单信息-->
+    <select id="getSingleMenu" parameterType="string" resultMap="MenuInfoMap">
+        SELECT
+        <include refid="menuInfoList"/>
+        FROM tbl_menu_info WHERE menuid = #{menuId}
+    </select>
+
+    <!--查询所有菜单-->
+    <select id="getAllMenu" resultMap="MenuInfoMap">
+        SELECT
+        <include refid="menuInfoList"/>
+        FROM tbl_menu_info
+        WHERE parentid = null OR parentid = '' ORDER BY sortnum ASC
+    </select>
+
+    <!--查询子菜单-->
+    <select id="getChildMenu" parameterType="java.util.Map" resultMap="MenuInfoMap">
+        SELECT
+        <include refid="menuInfoList"/>
+        FROM tbl_menu_info WHERE parentid = #{parentId} ORDER BY sortnum ASC
+    </select>
+
+    <!--查询菜单内容信息-->
+    <select id="getMenuContent" parameterType="java.util.Map" resultMap="ContentInfoMap">
+        SELECT
+        <include refid="contentInfoList"/>
+        FROM tbl_content_info WHERE objectid = #{menuId}
+    </select>
+
+    <!--更新菜单信息-->
+    <update id="updateMenuInfo" parameterType="com.local.naruto.knowledge.mybatis.entity.MenuModel">
+        UPDATE tbl_menu_info
+        <set>
+            parentid = #{parentId},
+            status = #{status},
+            lastmodifieduser = #{lastModifiedUser},
+            lastmodifieddate = #{lastModifiedDate}
+        </set>
+        WHERE menuid = #{menuId}
+    </update>
+</mapper>
