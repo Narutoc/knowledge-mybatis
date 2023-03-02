@@ -56,3 +56,5 @@ mybatis:
 logging:
   level:
     com.local.naruto.knowledge.mapper: debug
+
+

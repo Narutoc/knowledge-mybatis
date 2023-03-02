@@ -1,6 +1,7 @@
 package com.local.naruto.knowledge.service;
 
 import com.local.naruto.common.Constants;
+import com.local.naruto.exception.BadRequestException;
 import com.local.naruto.exception.ServiceException;
 import com.local.naruto.knowledge.entity.ContentModel;
 import com.local.naruto.knowledge.entity.MenuInfoModel;
@@ -48,16 +49,8 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {ServiceException.class})
     public void addMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
-            model.setMenuId(UUIDUtils.generateUuid());
-            model.setCreatedDate(DateUtils.getUtcTime());
-            model.setLastModifiedDate(DateUtils.getUtcTime());
-            if (StringUtils.isNotEmpty(model.getParentId())) {
-                MenuInfoModel parent = menuMapper.getSingleMenu(model.getParentId());
-                if (parent == null) {
-                    log.error("parent menu does not exist");
-                    throw new ServiceException("parent menu does not exist");
-                }
-            }
+            checkParentMenu(model.getParentId());
+            setAddMenuCommonInfo(model);
             handleMenuContent(model.getMenuLanguageList(), model.getMenuId());
             menuMapper.addMenuInfo(model);
             return;
@@ -67,6 +60,24 @@ public class MenuServiceImpl implements MenuService {
             log.error("addMenuInfo exception is " + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "addMenuInfo caught en error");
+    }
+
+    private void setAddMenuCommonInfo(MenuInfoModel model) {
+        model.setMenuId(UUIDUtils.generateUuid());
+        model.setCreatedUser("naruto");
+        model.setCreatedDate(DateUtils.getUtcTime());
+        model.setLastModifiedUser("naruto");
+        model.setLastModifiedDate(DateUtils.getUtcTime());
+    }
+
+    private void checkParentMenu(String parentId) {
+        if (StringUtils.isNotEmpty(parentId)) {
+            MenuInfoModel parent = menuMapper.getSingleMenu(parentId);
+            if (parent == null) {
+                log.error("parent menu does not exist");
+                throw new BadRequestException("parent menu does not exist", "parent menu does not exist");
+            }
+        }
     }
 
     /**
@@ -146,7 +157,7 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 批量插入菜单信息
      *
-     * @param path 文件路径
+     * @param path   文件路径
      * @param userId 操作人id
      * @throws ServiceException 异常
      */
