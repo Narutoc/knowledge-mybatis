@@ -55,35 +55,16 @@ spring:
         timeout: 2000s
 
   application:
-    name: naruto-knowledge
-
-  data:
-    aws:
-      access-key: 1234556
-      secret-key: 12345676
-    dynamodb:
-      regions: US_WEST_2
-      tablename: tbl_dynamodb_info
+    name: knowledge-mybatis
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.local.naruto.knowledge.entity
   configuration:
     jdbc-type-for-null: 'null'
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 #showSql
 logging:
-  level.com.local.naruto.knowledge.mybatis.maapper: debug
-
-xxl:
-  job:
-    admin:
-      addresses: http://127.0.0.1:8080/xxl-job-admin
-    accessToken: default_token
-    executor:
-      appname : ${spring.application.name}
-      address: ''
-      ip: ''
-      port: 9999
-      logpath: /data/applogs/xxl-job/jobhandler
-      logretentiondays: 30
+  level:
+    com.local.naruto.knowledge.mapper: debug

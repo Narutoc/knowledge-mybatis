@@ -14,7 +14,7 @@
     <artifactId>knowledge-mybatis</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <name>naruto-knowledge</name>
+    <name>knowledge-mybatis</name>
     <description>maven project for mybatis</description>
 
     <dependencies>
@@ -88,22 +88,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <!--引入jackson依赖-->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
         </dependency>
 
         <dependency>
