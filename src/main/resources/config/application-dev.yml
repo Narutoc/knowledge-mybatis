@@ -34,6 +34,8 @@ spring:
     port: 6379
     ssl: false
     database: 1
+    cache:
+      type: redis
     jedis:
       pool:
         max-idle: 10
@@ -45,6 +47,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.local.naruto.knowledge.entity
+  map-underscore-to-camel-case: true
   configuration:
     jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

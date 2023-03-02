@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
                 MenuInfoModel parent = menuMapper.getSingleMenu(model.getParentId());
                 if (parent == null) {
                     log.error("parent menu does not exist");
-                    throw ServiceException.paramException("parent menu does not exist");
+                    throw new ServiceException("parent menu does not exist");
                 }
             }
             handleMenuContent(model.getMenuLanguageList(), model.getMenuId());

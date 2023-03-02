@@ -2,9 +2,11 @@ package com.local.naruto.knowledge.controller.menu;
 
 import com.local.naruto.common.JsonResult;
 import com.local.naruto.knowledge.entity.MenuInfoModel;
-import java.util.List;
 import com.local.naruto.knowledge.service.menu.MenuService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,7 @@ public class MenuController {
      * @return string
      */
     @PostMapping
+//    @CachePut(value = "menuCache",key = "#model.menuId")
     public JsonResult<String> addMenuInfo(@RequestBody MenuInfoModel model) {
         menuService.addMenuInfo(model);
         return new JsonResult<>(model.getMenuId());
@@ -74,6 +77,7 @@ public class MenuController {
      * @param id 菜单id
      * @return MenuModel
      */
+//    @Cacheable(value = "menuCache", key = "#id", unless = "#result == null ")
     @GetMapping(value = "/single/{id}")
     public JsonResult<MenuInfoModel> getSingleMenu(@PathVariable String id) {
         return new JsonResult<>(menuService.getSingleMenu(id));
