@@ -2,7 +2,7 @@ package com.local.naruto.knowledge.util;
 
 import com.local.naruto.exception.BadRequestException;
 import com.local.naruto.knowledge.entity.ContentModel;
-import com.local.naruto.knowledge.entity.MenuModel;
+import com.local.naruto.knowledge.entity.MenuInfoModel;
 import com.local.naruto.utils.DateUtils;
 import com.local.naruto.utils.UUIDUtils;
 import java.io.File;
@@ -29,7 +29,7 @@ public class ExportExcelUtil {
      * @param path   文件路径
      * @param userId 用户id
      */
-    public static List<MenuModel> readInfo(String path, String userId) throws IOException {
+    public static List<MenuInfoModel> readInfo(String path, String userId) throws IOException {
         Workbook workbook = null;
         InputStream inputStream = null;
         String fileName;
@@ -56,7 +56,7 @@ public class ExportExcelUtil {
             int rowStart = firstRowNum + 2;
             // 数据总行数
             int rowEnd = sheet.getPhysicalNumberOfRows();
-            List<MenuModel> menuList = new ArrayList<>();
+            List<MenuInfoModel> menuList = new ArrayList<>();
             // 解析每一行的数据，构造数据对象
             for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
                 // 获取第rowNum行的数据
@@ -65,7 +65,7 @@ public class ExportExcelUtil {
                     continue;
                 }
                 // 菜单基础信息
-                MenuModel menu = convertRow2MenuModel(row, userId);
+                MenuInfoModel menu = convertRow2MenuModel(row, userId);
                 // 菜单各语言信息
                 List<ContentModel> menuLanguageList = convertRow2MenuContent(row, userId,
                     menu.getMenuId());
@@ -84,8 +84,8 @@ public class ExportExcelUtil {
         }
     }
 
-    private static MenuModel convertRow2MenuModel(Row row, String userId) {
-        MenuModel menu = new MenuModel();
+    private static MenuInfoModel convertRow2MenuModel(Row row, String userId) {
+        MenuInfoModel menu = new MenuInfoModel();
         menu.setMenuId(UUIDUtils.generateUuid());
         // 第一列为菜单排序信息
         String sortNum = convertCellValueToString(row.getCell(0));
@@ -124,7 +124,7 @@ public class ExportExcelUtil {
             languageInfo.setObjectId(menuId);
             languageInfo.setLang(String.valueOf(languageNum));
             // 表格行列起始为0
-            String menuName = convertCellValueToString(row.getCell(4 * languageNum + 0 - 2));
+            String menuName = convertCellValueToString(row.getCell(4 * languageNum - 2));
             log.info("菜单名称：" + menuName);
             languageInfo.setContent1(menuName);
             String menuDesc = convertCellValueToString(row.getCell(4 * languageNum + 1 - 2));

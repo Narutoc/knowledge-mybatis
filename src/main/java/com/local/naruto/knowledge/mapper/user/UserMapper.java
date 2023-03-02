@@ -1,6 +1,6 @@
 package com.local.naruto.knowledge.mapper.user;
 
-import com.local.naruto.knowledge.entity.UserModel;
+import com.local.naruto.knowledge.entity.UserInfoModel;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,7 +20,7 @@ public interface UserMapper {
      *
      * @return list
      */
-    List<UserModel> getAllUser();
+    List<UserInfoModel> getAllUser();
 
     /**
      * 根据id查询用户信息
@@ -28,21 +28,21 @@ public interface UserMapper {
      * @param id 用户id
      * @return User
      */
-    UserModel getUserById(@Param("id") String id);
+    UserInfoModel getUserById(@Param("id") String id);
 
     /**
      * 批量插入用户信息
      *
      * @param list 用户信息列表
      */
-    void batchAddUser(List<UserModel> list);
+    void batchAddUser(List<UserInfoModel> list);
 
     /**
      * 批量更新用户信息
      *
      * @param list 用户信息列表
      */
-    void batchUpdateUser(List<UserModel> list);
+    void batchUpdateUser(List<UserInfoModel> list);
 
     /**
      * 多条件查询用户信息
@@ -50,7 +50,7 @@ public interface UserMapper {
      * @param param 查询条件
      * @return list
      */
-    List<UserModel> conditionalQuery(Map<String, Object> param);
+    List<UserInfoModel> conditionalQuery(Map<String, Object> param);
 
     /**
      * 多条件查询用户信息总数

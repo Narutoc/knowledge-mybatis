@@ -15,12 +15,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MenuModel extends CommonModel {
+public class MenuInfoModel extends CommonModel {
 
     @NotNull
     private String menuId;
     private String parentId;
     private String sortNum;
-    private List<MenuModel> child;
+    private List<MenuInfoModel> child;
     private List<ContentModel> menuLanguageList;
 }

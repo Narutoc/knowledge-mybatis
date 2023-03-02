@@ -3,7 +3,7 @@ package com.local.naruto.knowledge.service;
 import com.local.naruto.common.Constants;
 import com.local.naruto.exception.ServiceException;
 import com.local.naruto.knowledge.entity.ContentModel;
-import com.local.naruto.knowledge.entity.MenuModel;
+import com.local.naruto.knowledge.entity.MenuInfoModel;
 import com.local.naruto.knowledge.mapper.menu.MenuMapper;
 import com.local.naruto.knowledge.service.content.ContentService;
 import com.local.naruto.knowledge.service.menu.MenuService;
@@ -46,13 +46,13 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional(rollbackFor = {ServiceException.class})
-    public void addMenuInfo(MenuModel model) throws ServiceException {
+    public void addMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
             model.setMenuId(UUIDUtils.generateUuid());
             model.setCreatedDate(DateUtils.getUtcTime());
             model.setLastModifiedDate(DateUtils.getUtcTime());
             if (StringUtils.isNotEmpty(model.getParentId())) {
-                MenuModel parent = menuMapper.getSingleMenu(model.getParentId());
+                MenuInfoModel parent = menuMapper.getSingleMenu(model.getParentId());
                 if (parent == null) {
                     log.error("parent menu does not exist");
                     throw ServiceException.paramException("parent menu does not exist");
@@ -76,7 +76,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws ServiceException 异常
      */
     @Override
-    public List<MenuModel> getAllMenu() throws ServiceException {
+    public List<MenuInfoModel> getAllMenu() throws ServiceException {
         try {
             return menuMapper.getAllMenu();
         } catch (BindingException bind) {
@@ -96,7 +96,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws ServiceException 异常
      */
     @Override
-    public MenuModel getSingleMenu(String menuId) throws ServiceException {
+    public MenuInfoModel getSingleMenu(String menuId) throws ServiceException {
         try {
             if (StringUtils.isEmpty(menuId)) {
                 log.error(EMPTY_ID);
@@ -119,13 +119,13 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional(rollbackFor = {ServiceException.class})
-    public void updateMenuInfo(MenuModel model) throws ServiceException {
+    public void updateMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
             if (StringUtils.isEmpty(model.getMenuId())) {
                 log.error(EMPTY_ID);
                 throw new ServiceException(Constants.INT_400, EMPTY_ID);
             }
-            MenuModel single = menuMapper.getSingleMenu(model.getMenuId());
+            MenuInfoModel single = menuMapper.getSingleMenu(model.getMenuId());
             if (single == null) {
                 log.error("updated menu does not exist");
                 throw new ServiceException(Constants.INT_400, "updated menu does not exist");
@@ -154,11 +154,11 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {ServiceException.class})
     public void exportMenuInfoFromExcel(String path, String userId) throws ServiceException {
         try {
-            List<MenuModel> menuList = ExportExcelUtil.readInfo(path, userId);
+            List<MenuInfoModel> menuList = ExportExcelUtil.readInfo(path, userId);
             // 批量插入菜单基础信息
             menuMapper.batchInsertMenu(menuList);
             List<ContentModel> allMenuLanguage = new ArrayList<>();
-            for (MenuModel menu : menuList) {
+            for (MenuInfoModel menu : menuList) {
                 List<ContentModel> menuLanguageList = menu.getMenuLanguageList();
                 allMenuLanguage.addAll(menuLanguageList);
             }

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserModel extends CommonModel {
+public class UserInfoModel extends CommonModel {
 
     private String userId;
     private String userName;

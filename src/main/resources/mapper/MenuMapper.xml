@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.local.naruto.knowledge.mapper.menu.MenuMapper">
-    <resultMap id="MenuInfoMap" type="com.local.naruto.knowledge.entity.MenuModel">
+    <resultMap id="MenuInfoMap" type="com.local.naruto.knowledge.entity.MenuInfoModel">
         <result column="menuId" property="menuId"/>
         <result column="parentId" property="parentId"/>
         <result column="sortNum" property="sortNum"/>
@@ -13,7 +13,7 @@
         <result column="lastModifiedDate" property="lastModifiedDate"/>
         <collection property="child" column="{parentId = menuId}"
           javaType="java.util.ArrayList"
-          ofType="com.local.naruto.knowledge.entity.MenuModel"
+          ofType="com.local.naruto.knowledge.entity.MenuInfoModel"
           select="getChildMenu"/>
         <collection property="menuLanguageList" column="{menuId = menuId}"
           javaType="java.util.ArrayList"
@@ -63,7 +63,7 @@
     </sql>
 
     <!--新增菜单信息-->
-    <insert id="addMenuInfo" parameterType="com.local.naruto.knowledge.entity.MenuModel">
+    <insert id="addMenuInfo" parameterType="com.local.naruto.knowledge.entity.MenuInfoModel">
         INSERT INTO tbl_menu_info
         (
             menuid,parentid,status,sortnum,createduser,createddate,lastmodifieduser,lastmodifieddate
@@ -126,7 +126,7 @@
     </select>
 
     <!--更新菜单信息-->
-    <update id="updateMenuInfo" parameterType="com.local.naruto.knowledge.entity.MenuModel">
+    <update id="updateMenuInfo" parameterType="com.local.naruto.knowledge.entity.MenuInfoModel">
         UPDATE tbl_menu_info
         <set>
             parentid = #{parentId},

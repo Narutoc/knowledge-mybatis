@@ -1,6 +1,6 @@
 package com.local.naruto.knowledge.mapper.menu;
 
-import com.local.naruto.knowledge.entity.MenuModel;
+import com.local.naruto.knowledge.entity.MenuInfoModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -19,14 +19,14 @@ public interface MenuMapper {
      *
      * @param model 菜单实体
      */
-    void addMenuInfo(MenuModel model);
+    void addMenuInfo(MenuInfoModel model);
 
     /**
      * 批量新增菜单信息
      *
      * @param list 菜单列表
      */
-    void batchInsertMenu(List<MenuModel> list);
+    void batchInsertMenu(List<MenuInfoModel> list);
 
     /**
      * 根据菜单id查询信息
@@ -34,19 +34,19 @@ public interface MenuMapper {
      * @param menuId 菜单id
      * @return MenuModel
      */
-    MenuModel getSingleMenu(@Param("menuId") String menuId);
+    MenuInfoModel getSingleMenu(@Param("menuId") String menuId);
 
     /**
      * 查询所有菜单
      *
      * @return List<MenuModel>
      */
-    List<MenuModel> getAllMenu();
+    List<MenuInfoModel> getAllMenu();
 
     /**
      * 编辑菜单信息
      *
      * @param model 菜单实体
      */
-    void updateMenuInfo(MenuModel model);
+    void updateMenuInfo(MenuInfoModel model);
 }

@@ -4,7 +4,7 @@ import com.local.naruto.common.JsonResult;
 import com.local.naruto.exception.ServiceException;
 import com.local.naruto.knowledge.common.CommonUtils;
 import com.local.naruto.knowledge.entity.ConditionModel;
-import com.local.naruto.knowledge.entity.UserModel;
+import com.local.naruto.knowledge.entity.UserInfoModel;
 import com.local.naruto.knowledge.mapper.user.UserMapper;
 import com.local.naruto.knowledge.service.user.UserService;
 import com.local.naruto.utils.DateUtils;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException 运行时异常
      */
     @Override
-    public List<UserModel> getAllUser() throws ServiceException {
+    public List<UserInfoModel> getAllUser() throws ServiceException {
         try {
             return userMapper.getAllUser();
         } catch (BindingException bind) {
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException 运行时异常
      */
     @Override
-    public UserModel getUserById(String id) throws ServiceException {
+    public UserInfoModel getUserById(String id) throws ServiceException {
         try {
             return userMapper.getUserById(id);
         } catch (BindingException bind) {
@@ -74,10 +74,10 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException 运行时异常
      */
     @Override
-    public void batchAddUser(List<UserModel> list) throws ServiceException {
+    public void batchAddUser(List<UserInfoModel> list) throws ServiceException {
         try {
             if (CollectionUtils.isNotEmpty(list)) {
-                for (UserModel single : list) {
+                for (UserInfoModel single : list) {
                     single.setUserId(UUIDUtils.generateUuid());
                     single.setCreatedDate(DateUtils.getUtcTime());
                     single.setLastModifiedDate(DateUtils.getUtcTime());
@@ -100,10 +100,10 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException 运行时异常
      */
     @Override
-    public void batchUpdateUser(List<UserModel> list) throws ServiceException {
+    public void batchUpdateUser(List<UserInfoModel> list) throws ServiceException {
         try {
             if (CollectionUtils.isNotEmpty(list)) {
-                for (UserModel single : list) {
+                for (UserInfoModel single : list) {
                     single.setLastModifiedDate(DateUtils.getUtcTime());
                 }
             }
@@ -125,11 +125,11 @@ public class UserServiceImpl implements UserService {
      * @throws ServiceException 运行时异常
      */
     @Override
-    public JsonResult<List<UserModel>> conditionalQuery(ConditionModel param)
+    public JsonResult<List<UserInfoModel>> conditionalQuery(ConditionModel param)
         throws ServiceException {
         try {
             Map<String, Object> map = CommonUtils.getConditionMap(param);
-            List<UserModel> list = userMapper.conditionalQuery(map);
+            List<UserInfoModel> list = userMapper.conditionalQuery(map);
             int num = userMapper.conditionalQueryCount(map);
             return new JsonResult<>(list, num);
         } catch (BindingException bind) {

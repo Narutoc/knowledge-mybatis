@@ -2,7 +2,7 @@ package com.local.naruto.knowledge.controller.user;
 
 import com.local.naruto.common.JsonResult;
 import com.local.naruto.knowledge.entity.ConditionModel;
-import com.local.naruto.knowledge.entity.UserModel;
+import com.local.naruto.knowledge.entity.UserInfoModel;
 import java.util.List;
 import com.local.naruto.knowledge.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +35,9 @@ public class UserController {
      * @return JsonResult<UserModel>
      */
     @GetMapping(value = "/{id}")
-    public JsonResult<UserModel> getUser(@PathVariable(value = "id") String id) {
-        UserModel userModel = userService.getUserById(id);
-        return new JsonResult<>(userModel);
+    public JsonResult<UserInfoModel> getUser(@PathVariable(value = "id") String id) {
+        UserInfoModel userInfoModel = userService.getUserById(id);
+        return new JsonResult<>(userInfoModel);
     }
 
     /**
@@ -58,7 +58,7 @@ public class UserController {
      * @return JsonResult
      */
     @PostMapping(value = "/batch")
-    public JsonResult<Integer> batchAddUser(@RequestBody List<UserModel> list) {
+    public JsonResult<Integer> batchAddUser(@RequestBody List<UserInfoModel> list) {
         userService.batchAddUser(list);
         return new JsonResult<>(list.size());
     }
@@ -70,7 +70,7 @@ public class UserController {
      * @return JsonResult
      */
     @PutMapping(value = "/batch")
-    public JsonResult<Integer> batchUpdateUser(@RequestBody List<UserModel> list) {
+    public JsonResult<Integer> batchUpdateUser(@RequestBody List<UserInfoModel> list) {
         userService.batchUpdateUser(list);
         return new JsonResult<>(list.size());
     }
@@ -81,8 +81,8 @@ public class UserController {
      * @return JsonResult
      */
     @GetMapping(value = "/all")
-    public JsonResult<List<UserModel>> getAllUser() {
-        List<UserModel> all = userService.getAllUser();
+    public JsonResult<List<UserInfoModel>> getAllUser() {
+        List<UserInfoModel> all = userService.getAllUser();
         return new JsonResult<>(all, all.size());
     }
 
@@ -93,7 +93,7 @@ public class UserController {
      * @return JsonResult
      */
     @PostMapping(value = "/condition")
-    public JsonResult<List<UserModel>> condition(@RequestBody ConditionModel param) {
+    public JsonResult<List<UserInfoModel>> condition(@RequestBody ConditionModel param) {
         return userService.conditionalQuery(param);
     }
 }

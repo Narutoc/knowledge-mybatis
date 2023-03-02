@@ -1,7 +1,7 @@
 package com.local.naruto.knowledge.service.menu;
 
 import com.local.naruto.exception.ServiceException;
-import com.local.naruto.knowledge.entity.MenuModel;
+import com.local.naruto.knowledge.entity.MenuInfoModel;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ public interface MenuService {
      * @param model 菜单实体
      * @throws ServiceException 异常
      */
-    void addMenuInfo(MenuModel model) throws ServiceException;
+    void addMenuInfo(MenuInfoModel model) throws ServiceException;
 
     /**
      * 批量插入菜单信息
@@ -35,7 +35,7 @@ public interface MenuService {
      * @return List<MenuModel>
      * @throws ServiceException 异常
      */
-    List<MenuModel> getAllMenu() throws ServiceException;
+    List<MenuInfoModel> getAllMenu() throws ServiceException;
 
     /**
      * 查询单个菜单
@@ -44,7 +44,7 @@ public interface MenuService {
      * @return MenuModel
      * @throws ServiceException 异常
      */
-    MenuModel getSingleMenu(String menuId) throws ServiceException;
+    MenuInfoModel getSingleMenu(String menuId) throws ServiceException;
 
     /**
      * 编辑菜单信息
@@ -52,5 +52,5 @@ public interface MenuService {
      * @param model 菜单实体
      * @throws ServiceException 异常
      */
-    void updateMenuInfo(MenuModel model) throws ServiceException;
+    void updateMenuInfo(MenuInfoModel model) throws ServiceException;
 }

@@ -1,7 +1,7 @@
 package com.local.naruto.knowledge.controller.menu;
 
 import com.local.naruto.common.JsonResult;
-import com.local.naruto.knowledge.entity.MenuModel;
+import com.local.naruto.knowledge.entity.MenuInfoModel;
 import java.util.List;
 import com.local.naruto.knowledge.service.menu.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class MenuController {
      * @return string
      */
     @PostMapping
-    public JsonResult<String> addMenuInfo(@RequestBody MenuModel model) {
+    public JsonResult<String> addMenuInfo(@RequestBody MenuInfoModel model) {
         menuService.addMenuInfo(model);
         return new JsonResult<>(model.getMenuId());
     }
@@ -53,7 +53,7 @@ public class MenuController {
      * @return string
      */
     @PutMapping
-    public JsonResult<String> updateMenuInfo(@RequestBody MenuModel model) {
+    public JsonResult<String> updateMenuInfo(@RequestBody MenuInfoModel model) {
         menuService.updateMenuInfo(model);
         return new JsonResult<>(model.getMenuId());
     }
@@ -64,7 +64,7 @@ public class MenuController {
      * @return list
      */
     @GetMapping
-    public JsonResult<List<MenuModel>> getAllMenu() {
+    public JsonResult<List<MenuInfoModel>> getAllMenu() {
         return new JsonResult<>(menuService.getAllMenu());
     }
 
@@ -75,7 +75,7 @@ public class MenuController {
      * @return MenuModel
      */
     @GetMapping(value = "/single/{id}")
-    public JsonResult<MenuModel> getSingleMenu(@PathVariable String id) {
+    public JsonResult<MenuInfoModel> getSingleMenu(@PathVariable String id) {
         return new JsonResult<>(menuService.getSingleMenu(id));
     }
 }
