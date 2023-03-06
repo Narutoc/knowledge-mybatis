@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional(rollbackFor = {ServiceException.class})
-    public void addMenuInfo(MenuInfoModel model) {
+    public void addMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
             checkParentMenu(model.getParentId());
             setAddMenuCommonInfo(model);
@@ -68,7 +68,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws ServiceException 异常
      */
     @Override
-    public List<MenuInfoModel> getAllMenu() {
+    public List<MenuInfoModel> getAllMenu() throws ServiceException {
         try {
             return menuMapper.getAllMenu();
         } catch (BindingException bind) {
@@ -88,7 +88,7 @@ public class MenuServiceImpl implements MenuService {
      * @throws ServiceException 异常
      */
     @Override
-    public MenuInfoModel getSingleMenu(String menuId) {
+    public MenuInfoModel getSingleMenu(String menuId) throws ServiceException {
         try {
             checkEmptyMenuId(menuId);
             return menuMapper.getSingleMenu(menuId);
@@ -108,7 +108,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional(rollbackFor = {ServiceException.class})
-    public void updateMenuInfo(MenuInfoModel model) {
+    public void updateMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
             checkEmptyMenuId(model.getMenuId());
             checkExistMenu(model.getMenuId());
@@ -134,7 +134,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional(rollbackFor = {ServiceException.class})
-    public void exportMenuInfoFromExcel(String path, String userId) {
+    public void exportMenuInfoFromExcel(String path, String userId) throws ServiceException {
         try {
             List<MenuInfoModel> menuList = ExportExcelUtil.readInfo(path, userId);
             // 批量插入菜单基础信息

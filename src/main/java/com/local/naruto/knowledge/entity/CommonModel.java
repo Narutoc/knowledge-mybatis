@@ -1,5 +1,6 @@
 package com.local.naruto.knowledge.entity;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CommonModel {
+public class CommonModel implements Serializable {
 
     private String status;
     @NotNull

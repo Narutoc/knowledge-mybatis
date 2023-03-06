@@ -5,6 +5,7 @@ import com.local.naruto.knowledge.entity.MenuInfoModel;
 import com.local.naruto.knowledge.service.menu.MenuService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class MenuController {
      * @return string
      */
     @PostMapping
-//    @CachePut(value = "menuCache",key = "#model.menuId")
+    @CachePut(value = "menuCache",key = "#model.menuId")
     public JsonResult<String> addMenuInfo(@RequestBody MenuInfoModel model) {
         menuService.addMenuInfo(model);
         return new JsonResult<>(model.getMenuId());

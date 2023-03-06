@@ -1,12 +1,13 @@
 package com.local.naruto.knowledge.entity;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ContentModel extends CommonModel {
+public class ContentModel extends CommonModel implements Serializable {
 
     @NotNull
     private String contentId;
