@@ -88,16 +88,16 @@ public class MenuServiceImpl implements MenuService {
      * @throws ServiceException 异常
      */
     @Override
-    public MenuInfoModel getSingleMenu(String menuId) throws ServiceException {
+    public MenuInfoModel getMenuById(String menuId) throws ServiceException {
         try {
             checkEmptyMenuId(menuId);
-            return menuMapper.getSingleMenu(menuId);
+            return menuMapper.getMenuById(menuId);
         } catch (BindingException bind) {
-            log.error("getSingleMenu bindingException is " + bind.getMessage());
+            log.error("getMenuById bindingException is " + bind.getMessage());
         } catch (Exception exception) {
-            log.error("getSingleMenu exception is" + exception.getMessage());
+            log.error("getMenuById exception is" + exception.getMessage());
         }
-        throw new ServiceException(Constants.INT_500, "getSingleMenu caught en error");
+        throw new ServiceException(Constants.INT_500, "getMenuById caught en error");
     }
 
     /**
@@ -123,6 +123,29 @@ public class MenuServiceImpl implements MenuService {
             log.error("updateMenuInfo exception is" + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "updateMenuInfo caught en error");
+    }
+
+    /**
+     * 根据id删除菜单信息
+     *
+     * @param menuId 菜单id
+     * @throws ServiceException 异常
+     */
+    @Override
+    @Transactional(rollbackFor = {ServiceException.class})
+    public void deleteByMenuId(String menuId) throws ServiceException {
+        try {
+            checkExistMenu(menuId);
+            // 先删除菜单语言信息
+            contentService.deleteByObjectId(menuId);
+            menuMapper.deleteByMenuId(menuId);
+            return;
+        } catch (BindingException bind) {
+            log.error("deleteByMenuId bindingException is " + bind.getMessage());
+        } catch (Exception exception) {
+            log.error("deleteByMenuId exception is" + exception.getMessage());
+        }
+        throw new ServiceException(Constants.INT_500, "deleteByMenuId caught en error");
     }
 
     /**
@@ -169,7 +192,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     private void checkExistMenu(String menuId) {
-        MenuInfoModel single = menuMapper.getSingleMenu(menuId);
+        MenuInfoModel single = menuMapper.getMenuById(menuId);
         if (single == null) {
             log.error("updated menu does not exist");
             throw new ServiceException(Constants.INT_400, "updated menu does not exist");
@@ -195,7 +218,7 @@ public class MenuServiceImpl implements MenuService {
         if (StringUtils.isEmpty(parentId)) {
             return;
         }
-        MenuInfoModel parent = menuMapper.getSingleMenu(parentId);
+        MenuInfoModel parent = menuMapper.getMenuById(parentId);
         if (parent == null) {
             log.error("parent menu does not exist");
             throw new ServiceException(Constants.INT_400, "parent menu does not exist");

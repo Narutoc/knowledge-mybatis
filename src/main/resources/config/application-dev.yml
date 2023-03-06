@@ -51,6 +51,7 @@ mybatis:
   configuration:
     jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
 
 #showSql
 logging:

@@ -44,7 +44,7 @@ public interface MenuService {
      * @return MenuModel
      * @throws ServiceException 异常
      */
-    MenuInfoModel getSingleMenu(String menuId) throws ServiceException;
+    MenuInfoModel getMenuById(String menuId) throws ServiceException;
 
     /**
      * 编辑菜单信息
@@ -53,4 +53,12 @@ public interface MenuService {
      * @throws ServiceException 异常
      */
     void updateMenuInfo(MenuInfoModel model) throws ServiceException;
+
+    /**
+     * 根据id删除菜单信息
+     *
+     * @param menuId 菜单id
+     * @throws ServiceException 异常
+     */
+    void deleteByMenuId(String menuId) throws ServiceException;
 }

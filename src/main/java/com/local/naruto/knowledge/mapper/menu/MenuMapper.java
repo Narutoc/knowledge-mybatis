@@ -34,7 +34,7 @@ public interface MenuMapper {
      * @param menuId 菜单id
      * @return MenuModel
      */
-    MenuInfoModel getSingleMenu(@Param("menuId") String menuId);
+    MenuInfoModel getMenuById(@Param("menuId") String menuId);
 
     /**
      * 查询所有菜单
@@ -49,4 +49,11 @@ public interface MenuMapper {
      * @param model 菜单实体
      */
     void updateMenuInfo(MenuInfoModel model);
+
+    /**
+     * 根据菜单id删除菜单信息
+     *
+     * @param menuId 菜单id
+     */
+    void deleteByMenuId(@Param("menuId") String menuId);
 }
