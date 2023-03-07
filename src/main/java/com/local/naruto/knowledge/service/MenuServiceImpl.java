@@ -48,9 +48,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {ServiceException.class})
     public void addMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
-            checkParentMenu(model.getParentId());
-            setAddMenuCommonInfo(model);
-            handleMenuContent(model.getMenuLanguageList(), model.getMenuId());
+            addMenuOperation(model);
             menuMapper.addMenuInfo(model);
             return;
         } catch (BindingException bind) {
@@ -59,6 +57,12 @@ public class MenuServiceImpl implements MenuService {
             log.error("addMenuInfo exception is " + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "addMenuInfo caught en error");
+    }
+
+    private void addMenuOperation(MenuInfoModel model) {
+        checkParentMenu(model.getParentId());
+        setAddMenuCommonInfo(model);
+        handleMenuContent(model.getMenuLanguageList(), model.getMenuId());
     }
 
     /**
@@ -79,7 +83,6 @@ public class MenuServiceImpl implements MenuService {
         throw new ServiceException(Constants.INT_500, "getAllMenu caught en error");
     }
 
-
     /**
      * 查询单个菜单
      *
@@ -90,7 +93,6 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuInfoModel getMenuById(String menuId) throws ServiceException {
         try {
-            checkEmptyMenuId(menuId);
             return menuMapper.getMenuById(menuId);
         } catch (BindingException bind) {
             log.error("getMenuById bindingException is " + bind.getMessage());
@@ -110,11 +112,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {ServiceException.class})
     public void updateMenuInfo(MenuInfoModel model) throws ServiceException {
         try {
-            checkEmptyMenuId(model.getMenuId());
-            checkExistMenu(model.getMenuId());
-            // 多语言信息处理：先删除，再新增
-            handleMenuContent(model.getMenuLanguageList(), model.getMenuId());
-            model.setLastModifiedDate(DateUtils.getUtcTime());
+            updateMenuOperation(model);
             menuMapper.updateMenuInfo(model);
             return;
         } catch (BindingException bind) {
@@ -123,6 +121,17 @@ public class MenuServiceImpl implements MenuService {
             log.error("updateMenuInfo exception is" + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "updateMenuInfo caught en error");
+    }
+
+    private void updateMenuOperation(MenuInfoModel model) {
+        String menuId = model.getMenuId();
+        checkEmptyMenuId(menuId);
+        checkExistMenu(menuId);
+        checkParentMenu(model.getParentId());
+        // 多语言信息处理：先删除，再新增
+        handleMenuContent(model.getMenuLanguageList(), menuId);
+        model.setLastModifiedUser("naruto");
+        model.setLastModifiedDate(DateUtils.getUtcTime());
     }
 
     /**
@@ -184,6 +193,10 @@ public class MenuServiceImpl implements MenuService {
         }
         // 先删除菜单语言信息
         contentService.deleteByObjectId(menuId);
+        insertMenuLanguage(contentList, menuId);
+    }
+
+    private void insertMenuLanguage(List<ContentModel> contentList, String menuId) {
         for (ContentModel content : contentList) {
             content.setObjectId(menuId);
         }
@@ -192,8 +205,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     private void checkExistMenu(String menuId) {
-        MenuInfoModel single = menuMapper.getMenuById(menuId);
-        if (single == null) {
+        MenuInfoModel menu = menuMapper.getMenuById(menuId);
+        if (menu == null) {
             log.error("updated menu does not exist");
             throw new ServiceException(Constants.INT_400, "updated menu does not exist");
         }

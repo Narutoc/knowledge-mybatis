@@ -36,14 +36,8 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void batchInsertContent(List<ContentModel> contentList) throws ServiceException {
         try {
-            if (CollectionUtils.isNotEmpty(contentList)) {
-                for (ContentModel content : contentList) {
-                    content.setContentId(UUIDUtils.generateUuid());
-                    content.setCreatedDate(DateUtils.getUtcTime());
-                    content.setLastModifiedDate(DateUtils.getUtcTime());
-                }
-                contentMapper.batchInsertContent(contentList);
-            }
+            batchSetInsertContent(contentList);
+            contentMapper.batchInsertContent(contentList);
             return;
         } catch (BindingException bind) {
             log.error("batchInsertContent bindingException is " + bind.getMessage());
@@ -51,6 +45,19 @@ public class ContentServiceImpl implements ContentService {
             log.error("batchInsertContent exception is " + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "batchInsertContent caught en error");
+    }
+
+    private void batchSetInsertContent(List<ContentModel> contentList) {
+        if (CollectionUtils.isEmpty(contentList)) {
+            return;
+        }
+        for (ContentModel content : contentList) {
+            content.setContentId(UUIDUtils.generateUuid());
+            content.setCreatedUser("naruto");
+            content.setCreatedDate(DateUtils.getUtcTime());
+            content.setLastModifiedUser("naruto");
+            content.setLastModifiedDate(DateUtils.getUtcTime());
+        }
     }
 
     /**
@@ -62,12 +69,8 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void batchUpdateContent(List<ContentModel> contentList) throws ServiceException {
         try {
-            if (CollectionUtils.isNotEmpty(contentList)) {
-                for (ContentModel content : contentList) {
-                    content.setLastModifiedDate(DateUtils.getUtcTime());
-                }
-                contentMapper.batchUpdateContent(contentList);
-            }
+            batchSetUpdateContent(contentList);
+            contentMapper.batchUpdateContent(contentList);
             return;
         } catch (BindingException bind) {
             log.error("batchUpdateContent bindingException is " + bind.getMessage());
@@ -75,6 +78,17 @@ public class ContentServiceImpl implements ContentService {
             log.error("batchUpdateContent exception is " + exception.getMessage());
         }
         throw new ServiceException(Constants.INT_500, "batchUpdateContent caught en error");
+    }
+
+    private void batchSetUpdateContent(List<ContentModel> contentList) {
+        if (CollectionUtils.isEmpty(contentList)) {
+            return;
+        }
+        for (ContentModel content : contentList) {
+            content.setLastModifiedUser("naruto");
+            content.setLastModifiedDate(DateUtils.getUtcTime());
+        }
+        contentMapper.batchUpdateContent(contentList);
     }
 
     /**
