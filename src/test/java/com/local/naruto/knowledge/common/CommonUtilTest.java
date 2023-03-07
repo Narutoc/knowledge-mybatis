@@ -4,10 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.local.naruto.knowledge.entity.ConditionModel;
 import java.util.Map;
+
+import com.local.naruto.knowledge.util.CommonUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class CommonUtilsTest {
+class CommonUtilTest {
 
     private ConditionModel param;
 
@@ -22,7 +24,7 @@ class CommonUtilsTest {
 
     @Test
     void testGetConditionMap() {
-        Map<String, Object> condition = CommonUtils.getConditionMap(param);
+        Map<String, Object> condition = CommonUtil.getConditionMap(param);
         assertThat(condition.get("userName")).isEqualTo("name");
     }
 

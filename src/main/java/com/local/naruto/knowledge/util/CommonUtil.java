@@ -1,4 +1,4 @@
-package com.local.naruto.knowledge.common;
+package com.local.naruto.knowledge.util;
 
 import com.local.naruto.knowledge.entity.ConditionModel;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import java.util.Map;
  * @Author Naruto Chen
  * @Date 2022/05/02
  */
-public class CommonUtils {
+public class CommonUtil {
 
-    private CommonUtils() {
+    private CommonUtil() {
 
     }
 

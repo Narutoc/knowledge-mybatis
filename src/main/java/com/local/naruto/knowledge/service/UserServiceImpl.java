@@ -2,7 +2,7 @@ package com.local.naruto.knowledge.service;
 
 import com.local.naruto.common.JsonResult;
 import com.local.naruto.exception.ServiceException;
-import com.local.naruto.knowledge.common.CommonUtils;
+import com.local.naruto.knowledge.util.CommonUtil;
 import com.local.naruto.knowledge.entity.ConditionModel;
 import com.local.naruto.knowledge.entity.UserInfoModel;
 import com.local.naruto.knowledge.mapper.user.UserMapper;
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     public JsonResult<List<UserInfoModel>> conditionalQuery(ConditionModel param)
         throws ServiceException {
         try {
-            Map<String, Object> map = CommonUtils.getConditionMap(param);
+            Map<String, Object> map = CommonUtil.getConditionMap(param);
             List<UserInfoModel> list = userMapper.conditionalQuery(map);
             int num = userMapper.conditionalQueryCount(map);
             return new JsonResult<>(list, num);

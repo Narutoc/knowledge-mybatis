@@ -1,6 +1,7 @@
 package com.local.naruto.knowledge.controller.menu;
 
 import com.local.naruto.common.JsonResult;
+import com.local.naruto.knowledge.common.annotation.LogTrace;
 import com.local.naruto.knowledge.entity.MenuInfoModel;
 import com.local.naruto.knowledge.service.menu.MenuService;
 import java.util.List;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author Naruto Chen
  * @Date 2022/02/11
  */
+@LogTrace
 @RestController
 @RequestMapping(value = "/rest/menu")
 @CacheConfig(cacheNames = {"com.local.naruto.knowledge.controller.menu"})
