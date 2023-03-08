@@ -1,6 +1,9 @@
 package com.local.naruto.knowledge.controller.menu;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.local.naruto.knowledge.TestUtils;
@@ -43,6 +46,39 @@ class MenuControllerTest {
     void shouldAddMenuInfo() throws Exception {
         menuMockMvc.perform(post("/rest/menu")
                 .content(TestUtils.convertObjectToRequestBody(getMenuInfoModel()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldUpdateMenuInfo() throws Exception {
+        menuMockMvc.perform(put("/rest/menu")
+                .content(TestUtils.convertObjectToRequestBody(getMenuInfoModel()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetAllMenu() throws Exception {
+        menuMockMvc.perform(get("/rest/menu")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldGetMenuById() throws Exception {
+        menuMockMvc.perform(get("/rest/menu/" + "12345")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldDeleteMenuById() throws Exception {
+        menuMockMvc.perform(delete("/rest/menu/" + "12345")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());

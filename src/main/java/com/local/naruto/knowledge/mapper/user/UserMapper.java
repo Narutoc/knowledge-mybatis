@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 用户信息dao层
  *
- * @Author Naruto Chen
- * @Date 2022/02/08
+ * @author Naruto Chen
+ * @date 2022/02/08
  */
 @Mapper
 public interface UserMapper {

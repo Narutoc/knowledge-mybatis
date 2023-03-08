@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 菜单控制层
  *
- * @Author Naruto Chen
- * @Date 2022/02/11
+ * @author Naruto Chen
+ * @date 2022/02/11
  */
 //@LogTrace
 @RestController

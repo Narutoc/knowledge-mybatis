@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * 通用方法
  *
- * @Author Naruto Chen
- * @Date 2022/05/02
+ * @author Naruto Chen
+ * @date 2022/05/02
  */
 public class CommonUtil {
 

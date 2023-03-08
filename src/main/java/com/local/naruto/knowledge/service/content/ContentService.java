@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Param;
 /**
  * 内容信息操作接口定义
  *
- * @Author Naruto Chen
- * @Date 2022/05/02
+ * @author Naruto Chen
+ * @date 2022/05/02
  */
 public interface ContentService {
 

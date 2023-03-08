@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * UserService接口定义
  *
- * @Author Naruto Chen
- * @Date 2022/02/08
+ * @author Naruto Chen
+ * @date 2022/02/08
  */
 public interface UserService {
 

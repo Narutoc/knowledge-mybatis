@@ -6,8 +6,8 @@ import lombok.Setter;
 /**
  * 条件查询模型
  *
- * @Author Naruto Chen
- * @Date 2022/02/09
+ * @author Naruto Chen
+ * @date 2022/02/09
  */
 @Getter
 @Setter

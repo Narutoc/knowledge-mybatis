@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 菜单信息dao层
  *
- * @Author Naruto Chen
- * @Date 2022/02/11
+ * @author Naruto Chen
+ * @date 2022/02/11
  */
 @Mapper
 public interface MenuMapper {

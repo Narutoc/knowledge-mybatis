@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * User控制层
  *
- * @Author Naruto Chen
- * @Date 2022/02/08
+ * @author Naruto Chen
+ * @date 2022/02/08
  */
 @RestController
 @RequestMapping(value = "/rest/user")
